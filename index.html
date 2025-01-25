@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moka's Roblox Scripting Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Moka's Roblox Scripting Portfolio</h1>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm Moka, a passionate Roblox scripter. I specialize in creating interactive gameplay features and complex mechanics such as NPC AI, combat systems, and custom animations. I am experienced with Lua scripting in Roblox Studio and enjoy tackling challenges that require both creative and technical solutions.</p>
+  </section>
+
+  <section id="skills">
+    <h2>My Skills</h2>
+    <ul>
+      <li>Advanced Lua scripting for Roblox Studio</li>
+      <li>NPC AI development</li>
+      <li>Combat and animation scripting</li>
+      <li>Game mechanics and systems design</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2>Featured Projects</h2>
+    
+    <div class="project">
+      <h3>Rocket Launcher Integration</h3>
+      <p>I scripted a fully working rocket launcher for a Roblox game, complete with custom animations. The project involved creating a weapon system with multiple meshes and ensuring proper player interaction for usage.</p>
+      <h4>Script for Gun Position Adjustment:</h4>
+      <pre>
+        <code>
+local gun = script.Parent
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local gunAttachment = gun:WaitForChild("Attachment")
+
+local equipped = false
+
+local function adjustGunPosition()
+    if equipped then
+        gun.CFrame = character.RightHand.CFrame * CFrame.new(0, 0, -0.5)
+    end
+end
+
+gun.Equipped:Connect(function()
+    equipped = true
+    adjustGunPosition()
+end)
+
+gun.Unequipped:Connect(function()
+    equipped = false
+end)
+
+humanoid.Running:Connect(function(speed)
+    if equipped then
+        adjustGunPosition()
+    end
+end)
+        </code>
+      </pre>
+    </div>
+
+    <div class="project">
+      <h3>NPC Combat System</h3>
+      <p>Developed an NPC that chases and fights the player, including health bars, animations, and combat mechanics. This NPC is integrated into the game to trigger at certain locations for dynamic gameplay.</p>
+      <h4>Script for NPC Combat:</h4>
+      <pre>
+        <code>
+local npc = script.Parent
+local player = game.Players.LocalPlayer
+local target = player.Character:WaitForChild("HumanoidRootPart")
+local npcHumanoid = npc:WaitForChild("Humanoid")
+local attackRange = 10
+
+local function moveTowardsTarget()
+    while npcHumanoid.Health > 0 do
+        if (npc.Position - target.Position).Magnitude <= attackRange then
+            npcHumanoid:MoveTo(target.Position)
+        else
+            npcHumanoid:MoveTo(npc.Position)
+        end
+        wait(1)
+    end
+end
+
+moveTowardsTarget()
+        </code>
+      </pre>
+    </div>
+
+    <div class="project">
+      <h3>Player Weapon Interaction</h3>
+      <p>Created a script that handles the interaction between the player and the weapon system. The player can equip a weapon and shoot it based on different animations and actions.</p>
+      <h4>Script for Weapon Shooting:</h4>
+      <pre>
+        <code>
+local gun = script.Parent
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+local shooting = false
+
+local function shootWeapon()
+    if shooting then
+        -- Play shoot animation and fire projectiles
+        print("Firing!")
+    end
+end
+
+gun.Activated:Connect(function()
+    shooting = true
+    shootWeapon()
+end)
+
+gun.Deactivated:Connect(function()
+    shooting = false
+end)
+        </code>
+      </pre>
+    </div>
+
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>If you'd like to discuss a project or commission, feel free to reach out to me on Discord: <strong>Mokadev_.</strong></p>
+  </section>
+
+</body>
+</html>
